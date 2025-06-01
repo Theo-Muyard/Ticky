@@ -9,16 +9,16 @@ More infos in future commit.
 git clone https://github.com/Theo-Muyard/Ticky.git 
 cd Ticky
 ```
-2. Install the dependencies
+2. Install the dependencies :
 ```
 npm install
 ```
-3. Configure the `.env` file (create it at the root) with your TOKEN and CLIENT ID
+3. Configure the `.env` file (create it at the root) with your TOKEN and CLIENT ID :
 ```
 TOKEN=YOUR_TOKEN_HERE
 CLIENT_ID=YOUR_CLIENT_ID_HERE
 ```
-4. Run the bot
+4. Run the bot :
 ```
 npm start
 ```

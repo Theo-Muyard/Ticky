@@ -1,6 +1,7 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
 import("colors"); // Colors for terminal output
 import { config } from "dotenv";
+import mongoose from "mongoose";
 
 // Read environment variables from .env file
 config();
@@ -26,3 +27,11 @@ await commandHandler(commandsCollection, token);
 // Events handler
 import eventsHandler from "./handlers/events.handler.js";
 await eventsHandler(client);
+
+// DB connection
+try {
+  await mongoose.connect(process.env.MONGO_URI);
+  console.log("MongoDB connected successfully".green);
+} catch (error) {
+  console.log("Failed to connect to MongoDB: ".red + error.message);
+}
