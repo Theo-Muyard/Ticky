@@ -8,10 +8,12 @@ const commandHandler = async (commandsCollection, token) => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const folderPath = path.join(__dirname, ".." ,"commands");
+  const folderPath = path.join(__dirname, "..", "commands");
   const commandsPaths = fs
     .readdirSync(folderPath)
     .filter((file) => file.endsWith(".js"));
+
+  commandsCollection.clear();
 
   for (const file of commandsPaths) {
     const filePath = path.join(folderPath, file);
@@ -36,17 +38,24 @@ const commandHandler = async (commandsCollection, token) => {
   // And deploy your commands!
   (async () => {
     try {
-      console.log(`Started refreshing application (/) commands.`.blue);
-
       const data = await rest.put(
-        Routes.applicationCommands(process.env.CLIENT_ID),
+        Routes.applicationGuildCommands(
+          process.env.CLIENT_ID,
+          process.env.GUILD_ID
+        ),
         {
-          body: commandsCollection.map((command) => command.data.toJSON()),
+          body: [...commandsCollection.values()].map((command) =>
+            command.data.toJSON()
+          ),
         }
       );
 
       console.log(
-        `Successfully reloaded ${data.length} application (/) commands.`.blue
+        `Successfully reloaded ${
+          data.length
+        } application (/) commands.\nCommands : [${Array.from(
+          commandsCollection.keys()
+        ).join(", ")}]`.blue
       );
     } catch (error) {
       console.error(

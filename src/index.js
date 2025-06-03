@@ -14,15 +14,18 @@ const client = new Client({
   intents: [GatewayIntentBits.Guilds],
 });
 
+// Set the client commands collection
+const commandsCollection = (client.commands = new Collection());
+
+
 // Log in to Discord with the bot token
 client.login(token).catch((err) => {
   console.log(("Failed to log in: " + err.message).red);
 });
 
 // Commands handler
-const commandsCollection = (client.commands = new Collection());
 import commandHandler from "./handlers/commands.handler.js";
-await commandHandler(commandsCollection, token);
+await commandHandler(commandsCollection,token);
 
 // Events handler
 import eventsHandler from "./handlers/events.handler.js";

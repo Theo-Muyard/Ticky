@@ -13,10 +13,11 @@ cd Ticky
 ```
 npm install
 ```
-3. Configure the `.env` file (create it at the root) with your TOKEN and CLIENT ID :
+3. Configure the `.env` file (create it at the root) with your TOKEN, CLIENT ID and MONGO_URI :
 ```
 TOKEN=YOUR_TOKEN_HERE
 CLIENT_ID=YOUR_CLIENT_ID_HERE
+MONGO_URI=YOUR_MONGO_URI_HERE
 ```
 4. Run the bot :
 ```
