@@ -8,27 +8,33 @@ const commandHandler = async (commandsCollection, token) => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 
-  const folderPath = path.join(__dirname, "..", "commands");
-  const commandsPaths = fs
-    .readdirSync(folderPath)
-    .filter((file) => file.endsWith(".js"));
+  const foldersPath = fs.readdirSync(path.join(__dirname, "..", "commands"));
 
   commandsCollection.clear();
 
-  for (const file of commandsPaths) {
-    const filePath = path.join(folderPath, file);
-    const fileURL = pathToFileURL(filePath).href;
-    const commandModule = await import(fileURL);
-    const command = commandModule.default;
+  for (const folder of foldersPath) {
+    const folderPath = path.join(__dirname, "..", "commands", folder)
 
-    if (!command.data || !command.execute) {
-      console.log(
-        "[WARNING] The command at ".yellow +
-          `${filePath}`.red +
-          " is missing a required 'data' or 'execute' property.".yellow
-      );
-    } else {
-      commandsCollection.set(command.data.name, command);
+    const commandsPath = fs
+      .readdirSync(folderPath)
+      .filter((file) => file.endsWith(".js"));
+    
+    
+    for (const file of commandsPath) {
+      const filePath = path.join(folderPath, file);
+      const fileURL = pathToFileURL(filePath).href;
+      const commandModule = await import(fileURL);
+      const command = commandModule.default;
+
+      if (!command.data || !command.execute) {
+        console.log(
+          "[WARNING] The command at ".yellow +
+            `${filePath}`.red +
+            " is missing a required 'data' or 'execute' property.".yellow
+        );
+      } else {
+        commandsCollection.set(command.data.name, command);
+      }
     }
   }
 

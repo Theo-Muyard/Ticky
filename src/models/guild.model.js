@@ -6,6 +6,10 @@ const guildSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  allowedRoles: {
+    type: [String],
+    default: []
+  },
   ticketOpeningChannelId: {
     type: String,
     default: null
